@@ -7,8 +7,6 @@ select product_id, nvl(new_price, 10) as price from(
     from products f
     left join products s
     on f.product_id = s.product_id
-    and f.new_price  = s.new_price 
-    and f.change_date  = s.change_date 
     and s.change_date <= '2019-08-16'
 )
 where rw_num=1;
