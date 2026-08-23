@@ -1,13 +1,12 @@
 -- my orale sql
 select distinct u.user_id as buyer_id, TO_CHAR(u.join_date, 'YYYY-MM-DD') as join_date, count(
-    DECODE(EXTRACT(YEAR FROM NVL(o.order_date, TO_DATE('2020-01-01', 'YYYY-MM-DD'))), '2019', 1, null)) over(partition by u.user_id) as orders_in_2019
+    DECODE(EXTRACT(YEAR FROM o.order_date), '2019', 1, null)) over(partition by u.user_id) as orders_in_2019
 from
 users u 
 left join orders o
 on u.user_id = o.buyer_id
 left join items i
 on o.item_id = i.item_id
-order by 1
 
 -- others sql 1
 select user_id buyer_id, to_char(join_date , 'yyyy-mm-dd') join_date , count(*) orders_in_2019
