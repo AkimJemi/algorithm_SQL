@@ -5,8 +5,7 @@ from (
     select 
     t.ip, 
     s.position, 
-    s.split_value,
-    case when s.split_value LIKE '0_%' then 1 else 0 end flg
+    s.split_value
     from logs t,
         XMLTABLE(
             'ora:tokenize(., "\.")'
@@ -19,10 +18,10 @@ from (
 group by l.ip
 having MAX(NVL(l.position, 0)) != 4 
     or MAX(TO_NUMBER(l.split_value)) > 255
-    or MAX(l.flg) = 1
+    or MAX(case when l.split_value like '0_%' then 1 else 0 end) = 1
 order by invalid_count desc, ip desc
 ;
-;
+
 -- others sql 1
 SELECT
     ip,
