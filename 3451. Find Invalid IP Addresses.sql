@@ -1,7 +1,7 @@
 -- my oracle sql 1
 select l.ip, 
 count(distinct l.ip) invalid_count
-from logs l inner join (
+from (
     select 
     t.ip, 
     s.position, 
@@ -15,13 +15,13 @@ from logs l inner join (
                 position    FOR ORDINALITY,
                 split_value VARCHAR(3) PATH '.'
         ) s
-    ) sp
-on l.ip = sp.ip
+    ) l
 group by l.ip
-having MAX(NVL(sp.position, 0)) != 4 
-    or MAX(TO_NUMBER(sp.split_value)) > 255
-    or MAX(sp.flg) = 1
+having MAX(NVL(l.position, 0)) != 4 
+    or MAX(TO_NUMBER(l.split_value)) > 255
+    or MAX(l.flg) = 1
 order by invalid_count desc, ip desc
+;
 ;
 -- others sql 1
 SELECT
