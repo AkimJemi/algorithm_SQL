@@ -29,10 +29,10 @@ n_tb as (
     group by c.patient_id
 )
 select
-p.patient_id,
-pt.patient_name,
-pt.age,
-n.test_date - p.test_date recovery_time
+    p.patient_id,
+    pt.patient_name,
+    pt.age,
+    n.test_date - p.test_date recovery_time
 from p_tb p 
 inner join n_tb n
 on p.patient_id = n.patient_id
